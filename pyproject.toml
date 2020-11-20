@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "enumatch"
-version = "0.1.1"
-description = "Force match all possibilities of an enum"
+version = "0.1.2"
+description = "Strictly match all the possibilities of an enum"
 authors = ["Arijit Basu <sayanarijit@gmail.com>"]
 readme = "README.md"
 

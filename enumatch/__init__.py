@@ -1,15 +1,16 @@
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 
-from typing import Dict, TypeVar, Union, List, Any
+from typing import Dict, TypeVar, Union, List, Any, Iterator
 from enum import Enum
 
 T1 = TypeVar("T1")
 T2 = TypeVar("T2")
 
-def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:  # type: ignore
-    """Match all the possibilities of an enum
 
-    Use ... (ellipsis) for default.
+def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:
+    """Strictly match all the the possibilities of an enum.
+
+    Use `...` (ellipsis) for default.
 
     Example:
 
@@ -28,12 +29,13 @@ def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:  # type: ignore
         >>> 
         >>> # Define a matcher with a default case
         >>> matcher2 = match({Side.left: "Go left", ...: "Go right"})
+        >>> 
         >>> assert matcher2[Side.left] == "Go left"
         >>> assert matcher2[Side.right] == "Go right"
         >>> 
         >>> # If all the possibilities are not handled, we get error
         >>> import pytest
-        >>> with pytest.raises(ValueError, match="missing possibility"):
+        >>> with pytest.raises(ValueError, match="missing possibilities: Side.right"):
         ...     match({Side.left: "Go left"})
         ... 
         >>> 
@@ -41,7 +43,6 @@ def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:  # type: ignore
 
     if not isinstance(cases, dict):
         raise TypeError("expecting a dict")
-
 
     final: Dict[T1, T2] = {}
 
@@ -51,15 +52,15 @@ def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:  # type: ignore
     if not issubclass(case1_type, Enum):
         raise TypeError("the first key of the given dict must be an enum attribute")
 
-    possibilities: List[T1] = list(case1_type)
-
+    possibilities: Iterator[T1] = iter(case1_type)
     for possibility in possibilities:
-        if possibility not in cases:
-            if ... not in cases:
-                raise ValueError(f"missing possibility: {possibility}")
-            else:
-                final[possibility] = cases[...]
-        else:
+        if possibility in cases:
             final[possibility] = cases[possibility]
+        else:
+            if ... in cases:
+                final[possibility] = cases[...]
+            else:
+                missing = ", ".join([str(p) for p in case1_type if p not in cases])
+                raise ValueError(f"missing possibilities: {missing}")
 
     return final
