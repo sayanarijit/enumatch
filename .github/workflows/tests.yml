@@ -9,7 +9,8 @@ jobs:
       # For example, pypy2 and pypy3
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: [3.6, 3.7, 3.8]
+        python-version: [3.7, 3.8]
+        poetry-version: [ 1.1.2 ]
     
     env:
       OS: ${{ matrix.os }}
@@ -31,7 +32,7 @@ jobs:
     - name: Run Pytest
       run: |
         poetry install
-        poetry run pytest --cov=enumatch --cov-fail-under=100 --mypy
+        poetry run pytest --cov=enumatch --cov-report=xml --cov-fail-under=100 --mypy
 
     - name: Coverage
       uses: codecov/codecov-action@v1
