@@ -24,7 +24,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Use Poetry
+    - name: Install Poetry
       uses: abatilo/actions-poetry@v2.0.0
       with:
         poetry-version: ${{ matrix.poetry-version }}
@@ -32,10 +32,10 @@ jobs:
     - name: Run Pytest
       run: |
         poetry install
-        poetry run pytest --cov=enumatch --cov-report=xml --cov-fail-under=100 --mypy
+        poetry run pytest --cov=enumatch --cov-report=xml --cov-report=html --cov-fail-under=100 --mypy
+        bash <(curl -s https://codecov.io/bash)
 
-    - name: Coverage
-      uses: codecov/codecov-action@v1
+    - uses: actions/upload-artifact@v2
       with:
-        file: ./coverage.xml
-        fail_ci_if_error: true # optional (default = false)
+        name: coverage_report
+        path: htmlcov

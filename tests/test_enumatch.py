@@ -30,15 +30,22 @@ def test_match_default() -> None:
 
 def test_match_missing_possibility() -> None:
 
-    with pytest.raises(ValueError, match="missing possibility"):
-        match({Color.red: "Red", Color.green: "Green"})
+    with pytest.raises(
+        ValueError, match="missing possibilities: Color.green, Color.blue"
+    ):
+        match({Color.red: "Red"})
 
 
 def test_match_invalid_input() -> None:
 
     with pytest.raises(TypeError, match="expecting a dict"):
-        match([(Color.red, "Red"), (Color.green, "Green"), (Color.blue, "Blue")])  # type: ignore
-
+        match(
+            [  # type: ignore
+                (Color.red, "Red"),
+                (Color.green, "Green"),
+                (Color.blue, "Blue"),
+            ]
+        )
 
     with pytest.raises(
         TypeError, match="the first key of the given dict must be an enum attribute"
