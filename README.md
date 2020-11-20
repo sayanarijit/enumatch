@@ -1,11 +1,10 @@
 enumatch
 ========
 
-Match all the possibilities of an enum
-
 [![PyPI version](https://img.shields.io/pypi/v/enumatch.svg)](https://pypi.org/project/enumatch)
 [![codecov](https://codecov.io/gh/sayanarijit/enumatch/branch/master/graph/badge.svg)](https://codecov.io/gh/sayanarijit/enumatch)
 
+Match all the possibilities of an enum
 
 Use case
 --------

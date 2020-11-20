@@ -1,8 +1,9 @@
 [tool.poetry]
 name = "enumatch"
-version = "0.1.0"
+version = "0.1.1"
 description = "Force match all possibilities of an enum"
 authors = ["Arijit Basu <sayanarijit@gmail.com>"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.7"
