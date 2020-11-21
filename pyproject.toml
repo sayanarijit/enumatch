@@ -1,7 +1,10 @@
 [tool.poetry]
 name = "enumatch"
-version = "0.1.3"
+version = "0.1.4"  # Also update __init__.py
 description = "Strictly match all the possibilities of an enum"
+license = "MIT"
+keywords = ["enum", "match", "functional"]
+homepage = "https://github.com/sayanarijit/enumatch"
 authors = ["Arijit Basu <sayanarijit@gmail.com>"]
 readme = "README.md"
 

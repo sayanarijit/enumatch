@@ -1,4 +1,4 @@
-__version__ = "0.1.3"
+__version__ = "0.1.4"  # Also update pyproject.toml
 
 from typing import Dict, TypeVar, Union, Any, Iterator
 from enum import Enum
