@@ -2,7 +2,7 @@ enumatch
 ========
 
 [![PyPI version](https://img.shields.io/pypi/v/enumatch.svg)](https://pypi.org/project/enumatch)
-[![codecov](https://codecov.io/gh/sayanarijit/enumatch/branch/master/graph/badge.svg)](https://codecov.io/gh/sayanarijit/enumatch)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/36a72f1bf1a4979a765c/test_coverage)](https://codeclimate.com/github/sayanarijit/enumatch/test_coverage)
 
 Strictly match all the possibilities of an enum
 
