@@ -1,11 +1,11 @@
-__version__ = "0.1.4"  # Also update pyproject.toml
+__version__ = "0.2.0"  # Also update pyproject.toml
 
-from typing import Dict, TypeVar, Union, Any, Iterator
+from typing import Dict, TypeVar, Union, Any, Iterable
 from enum import Enum
 
 T1 = TypeVar("T1")
 T2 = TypeVar("T2")
-
+EnumType = TypeVar("EnumType", bound=Enum)
 
 def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:
     """Strictly match all the possibilities of an enum.
@@ -52,7 +52,7 @@ def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:
     if not issubclass(case1_type, Enum):
         raise TypeError("the first key of the given dict must be an enum attribute")
 
-    possibilities: Iterator[T1] = iter(case1_type)
+    possibilities: Iterable[T1] = iter(case1_type)
     for possibility in possibilities:
         if possibility in cases:
             final[possibility] = cases[possibility]
@@ -63,3 +63,32 @@ def match(cases: Dict[Union[T1, Any], T2]) -> Dict[T1, T2]:
             raise ValueError(f"missing possibilities: {missing}")
 
     return final
+
+
+def forall(enum: Iterable[EnumType], value: T2) -> Dict[EnumType, T2]:
+    """A little helper to define a common value for all the possibilities.
+
+    Basically a shortcut to: `{e: value for e in enum}`
+
+    Example:
+
+        >>> from enum import Enum, auto
+        >>> from enumatch import match, forall
+        >>> 
+        >>> class Switch(Enum):
+        ...     on = auto()
+        ...     off = auto()
+        ... 
+        >>> # is_on[main_switch][bedroom_switch]: bool
+        >>> is_on = match({
+        ...     Switch.on: match({Switch.on: True, Switch.off: False}),
+        ...     Switch.off: forall(Switch, False),
+        ... })
+        >>> 
+        >>> assert is_on[Switch.on][Switch.on] == True
+        >>> assert is_on[Switch.on][Switch.off] == False
+        >>> assert is_on[Switch.off][Switch.on] == False
+        >>> assert is_on[Switch.off][Switch.off] == False
+    """
+
+    return {p: value for p in enum}

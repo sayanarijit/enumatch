@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "enumatch"
-version = "0.1.4"  # Also update __init__.py
+version = "0.2.0"  # Also update __init__.py
 description = "Strictly match all the possibilities of an enum"
 license = "MIT"
 keywords = ["enum", "match", "functional"]

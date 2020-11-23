@@ -15,11 +15,15 @@ us to match all the possibilities either explicitly or by using a wildcard.
 
 Use `...` (ellipsis) for the wildcard.
 
-> TIP: Create the matcher at compile-time to have compile-time validation and zero runtime cost.
+
+> ***TIPs***
+> 
+> - Avoid the use of `...` (wildcard) to make sure any modification to the enums are safe.
+> - Create the matcher at compile-time to have compile-time validation and zero runtime cost.
 
 
-Example
--------
+Example: Flat matcher
+---------------------
 
 ```python
 from enum import Enum, auto
@@ -44,4 +48,28 @@ assert matcher2[Side.right] == "Go right"
 # If all the possibilities are not handled, we get error
 with pytest.raises(ValueError, match="missing possibilities: Side.right"):
     match({Side.left: "Go left"})
+```
+
+
+Example: Nested matcher
+-----------------------
+
+```python
+from enum import Enum, auto
+from enumatch import match, forall
+
+class Switch(Enum):
+    on = auto()
+    off = auto()
+
+# is_on[main_switch][bedroom_switch]: bool
+is_on = match({
+    Switch.on: match({Switch.on: True, Switch.off: False}),
+    Switch.off: forall(Switch, False),
+})
+
+assert is_on[Switch.on][Switch.on] == True
+assert is_on[Switch.on][Switch.off] == False
+assert is_on[Switch.off][Switch.on] == False
+assert is_on[Switch.off][Switch.off] == False
 ```
