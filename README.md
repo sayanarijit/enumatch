@@ -11,11 +11,11 @@ Use case
 --------
 
 This little `match` function makes matching Python's enum fields safer by forcing
-us to match all the possibilities either explicitely or by using a default value.
+us to match all the possibilities either explicitly or by using a wildcard.
 
-Use `...` (ellipsis) for default.
+Use `...` (ellipsis) for the wildcard.
 
-> TIP: Create the matcher at compile-time to have zero runtime cost.
+> TIP: Create the matcher at compile-time to have compile-time validation and zero runtime cost.
 
 
 Example
